@@ -5,11 +5,29 @@ using UnityEngine.UI;
 
 public class ButtnoHeal : MonoBehaviour
 {
+    [SerializeField] private Health _textHealth;
+    [SerializeField] private Health _quickHealth;
+    [SerializeField] private Health _smoothHealth;
+
+    private Button _button;
+
     public float Heal { get; private set; } = 30;
-    public Button Button { get; private set; }
 
     private void Awake()
     {
-       Button = GetComponent<Button>(); 
+        _button = GetComponent<Button>();
+        _button.onClick.AddListener(ApplyHealing);
+    }
+
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(ApplyHealing);
+    }
+
+    private void ApplyHealing()
+    {
+        _textHealth.Heal(Heal);
+        _quickHealth.Heal(Heal);
+        _smoothHealth.Heal(Heal);
     }
 }

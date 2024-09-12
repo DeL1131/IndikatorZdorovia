@@ -5,11 +5,29 @@ using UnityEngine.UI;
 
 public class ButtonDamage : MonoBehaviour
 {
+    [SerializeField] private Health _textHealth;
+    [SerializeField] private Health _quickHealth;
+    [SerializeField] private Health _smoothHealth;
+
+    private Button _button;
+
     public float Damage { get; private set; } = 30;
-    public Button Button { get; private set; }
 
     private void Awake()
     {
-        Button = GetComponent<Button>();
+        _button = GetComponent<Button>();
+        _button.onClick.AddListener(ApplyDamage);
+    }
+
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(ApplyDamage);
+    }
+
+    private void ApplyDamage()
+    {
+        _textHealth.TakeDamage(Damage);
+        _quickHealth.TakeDamage(Damage);
+        _smoothHealth.TakeDamage(Damage);
     }
 }

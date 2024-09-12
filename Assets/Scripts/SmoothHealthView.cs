@@ -8,14 +8,18 @@ public class SmoothHealthView : HealthView
 
     private void Start()
     {
-        OriginalColorHealth = HealthImage.color;
         HealthImage.fillAmount = Health.MaxHealth;
     }
 
-    protected override void TakeDamage(float currentHealth)
+    protected override void DisplayHealth(float currentHealth)
     {
+        if (CurrentCoroutine != null)
+        {
+            StopCoroutine(CurrentCoroutine);
+        }
+
         float normalizedHealth = currentHealth / Health.MaxHealth;
-        StartCoroutine(DecreaseHealthSmoothy(normalizedHealth));
+        CurrentCoroutine = StartCoroutine(DecreaseHealthSmoothy(normalizedHealth));
     }
 
     private IEnumerator DecreaseHealthSmoothy(float target)
@@ -30,8 +34,9 @@ public class SmoothHealthView : HealthView
             float intermediateValue = Mathf.Lerp(previousValve, target, normalizedPosition);
             HealthImage.fillAmount = intermediateValue;
 
-            HealthImage.color = Color.Lerp(OriginalColorHealth, DamageHealthColor, ColorBehaviour.Evaluate(normalizedPosition));
             yield return null;
         }
+
+        CurrentCoroutine = null;
     }
 }

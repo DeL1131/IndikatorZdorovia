@@ -6,25 +6,20 @@ using UnityEngine.UI;
 public abstract class HealthView : MonoBehaviour
 {
     [SerializeField] protected float SmoothDecreaseDuration = 0.5f;
-    [SerializeField] protected Health Health; 
-    [SerializeField] protected Color DamageHealthColor;
-    [SerializeField] protected AnimationCurve ColorBehaviour;
+    [SerializeField] protected Health Health;
+    protected Coroutine CurrentCoroutine;
 
     protected Image Image;
 
-    protected readonly int HeartAnimationTrigger = Animator.StringToHash("HeartAnimation");
-
-    protected Color OriginalColorHealth;
-
     private void OnEnable()
     {
-        Health.Changed += TakeDamage;
+        Health.Changed += DisplayHealth;
     }
 
     private void OnDisable()
     {
-        Health.Changed -= TakeDamage;
+        Health.Changed -= DisplayHealth;
     }
 
-    protected virtual void TakeDamage(float damage) { }
+    protected abstract void DisplayHealth(float damage);
 }

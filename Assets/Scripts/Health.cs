@@ -4,8 +4,6 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private float _maxHealth;
-    [SerializeField] protected ButtonDamage ButtonDamage;
-    [SerializeField] protected ButtnoHeal ButtonHeal;
 
     private float _currentHealth;
 
@@ -16,14 +14,6 @@ public class Health : MonoBehaviour
     private void Start()
     {
         _currentHealth = _maxHealth;
-        ButtonDamage.Button.onClick.AddListener(() => TakeDamage(ButtonDamage.Damage));
-        ButtonHeal.Button.onClick.AddListener(() => Heal(ButtonHeal.Heal));     
-    }
-
-    private void OnDisable()
-    {
-        ButtonDamage.Button.onClick.RemoveListener(() => TakeDamage(ButtonDamage.Damage));
-        ButtonHeal.Button.onClick.RemoveListener(() => Heal(ButtonHeal.Heal));
     }
 
     public void TakeDamage(float damage)

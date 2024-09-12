@@ -8,11 +8,10 @@ public class TextHealthView : HealthView
 
     private void Start()
     {
-        OriginalColorHealth = HealthText.color;
         HealthText.text = Health.MaxHealth.ToString("");
     }
 
-    protected override void TakeDamage(float currentHealth)
+    protected override void DisplayHealth(float currentHealth)
     {
         StartCoroutine(DecreaseHealthSmoothy(currentHealth));
     }
@@ -29,7 +28,6 @@ public class TextHealthView : HealthView
             float intermediateValue = Mathf.Lerp(previousValve, target, normalizedPosition);
             HealthText.text = intermediateValue.ToString("");
 
-            HealthText.color = Color.Lerp(OriginalColorHealth, DamageHealthColor, ColorBehaviour.Evaluate(normalizedPosition));
             yield return null;
         }
     }
